@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import ie.jtc.model.GPLocation;
 import ie.jtc.model.Input;
@@ -22,7 +23,9 @@ import ie.jtc.services.FileReader;
 public class InputController {
 
 	@Autowired
-	FileReader fileReader;
+	FileReader fileReader;	
+
+
     @RequestMapping(value="/input",method=RequestMethod.GET)
     public String start(  Model model) {        
     	Input input = new Input();
@@ -31,16 +34,17 @@ public class InputController {
         return "input";
     }
     @RequestMapping(value="/input",method=RequestMethod.POST)
-    public String input(  @Valid Input input,BindingResult result) {
+    public String input(  @Valid Input input,BindingResult result,Model model) {
         if (result.hasErrors()) {
             return "input";
         }
         List<GPLocation> docs = fileReader.readPCRSFile (input.getFileName());
         if( docs == null){
         	result.rejectValue("fileName","error","failed to parse "+input.getFileName());
+        	return "input";
         }
-        	
-        return "input";
+    	model.addAttribute("docs", docs);
+    	return "loadresult";        
     }
 
 }
