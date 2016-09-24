@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>GP List</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+       <table>
+       <tr th:each="doc  : ${docs}">
+        <td th:text="${doc.id}">001</td>
+        <td th:text="${doc.name}">Name</td>
+        <td th:text="${doc.address}">City</td>
+
+      </tr>
+    </table>
+       
+</body>
+</html>

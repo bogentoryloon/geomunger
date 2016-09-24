@@ -9,7 +9,7 @@ public class Input {
 	private String fileName;
     @NotNull
     @Min(1)
-	private int iterations;
+	private int iterations=1;
 	public String getFileName() {
 		return fileName;
 	}
