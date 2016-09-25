@@ -3,16 +3,21 @@ package ie.jtc.model;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.maps.errors.*;
 import com.google.maps.model.GeocodingResult;
 
 
 
 public  class Location {
+	@JsonProperty
 	private String address;
-	private LatitudeAndLongitude longitudeAndLatitude=new LatitudeAndLongitude();
+	@JsonProperty
+	private LatitudeAndLongitude latitudeAndLongitude=new LatitudeAndLongitude();
 	// things from google api, may be useful
+	@JsonIgnore
 	private String placeId;
+	@JsonIgnore
 	private static Logger log=Logger.getLogger(Location.class);
 	/*
 	 * "OK" indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
@@ -105,8 +110,11 @@ public  class Location {
 		}
 		return status;
 	}
+	@JsonIgnore
 	private Status status;
+	@JsonIgnore
 	private Boolean partialMatch;
+	@JsonIgnore
 	private GeocodingResult[] georesults;
 	public String getAddress() {
 		return address;
@@ -114,11 +122,11 @@ public  class Location {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public LatitudeAndLongitude getLongitudeAndLatitude() {
-		return longitudeAndLatitude;
+	public LatitudeAndLongitude getLatitudeAndLongitude() {
+		return latitudeAndLongitude;
 	}
-	public void setLongitudeAndLatitude(LatitudeAndLongitude longitudeAndLatitude) {
-		this.longitudeAndLatitude = longitudeAndLatitude;
+	public void setLatitudeAndLongitude(LatitudeAndLongitude longitudeAndLatitude) {
+		this.latitudeAndLongitude = longitudeAndLatitude;
 	}
 	public String getPlaceId() {
 		return placeId;
@@ -150,8 +158,8 @@ public  class Location {
 	public void assimilateGeoResults(GeocodingResult[] results) {
 		georesults=results;
 		if( results!=null){
-			this.longitudeAndLatitude.setLongitude(results[0].geometry.location.lng);
-			this.longitudeAndLatitude.setLatitude(results[0].geometry.location.lat);
+			this.latitudeAndLongitude.setLongitude(results[0].geometry.location.lng);
+			this.latitudeAndLongitude.setLatitude(results[0].geometry.location.lat);
 			this.placeId=results[0].placeId;
 			this.partialMatch=results[0].partialMatch;
 			

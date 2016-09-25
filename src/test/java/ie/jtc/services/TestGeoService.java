@@ -26,16 +26,16 @@ public class TestGeoService {
 	public void testGetGeoCode() throws Exception {
 		Location dr = new Location("1 MOUNT PLEASANT, SANDYCOVE ROAD,SANDYCOVE");
 		geoService.getGeoCode(dr);
-		assertEquals( 53.286296,dr.getLongitudeAndLatitude().getLatitude(),TOLERANCE);
-		assertEquals( -6.1194238,dr.getLongitudeAndLatitude().getLongitude(),TOLERANCE);		
+		assertEquals( 53.286296,dr.getLatitudeAndLongitude().getLatitude(),TOLERANCE);
+		assertEquals( -6.1194238,dr.getLatitudeAndLongitude().getLongitude(),TOLERANCE);		
 	}
 
 	@Test
 	public void testMyHouse() throws Exception {
 		Location myHouse = new Location("42 Melrose Ave.,Fairview,Dublin 3");
 		geoService.getGeoCode(myHouse);
-		assertEquals( 53.36511119999999,myHouse.getLongitudeAndLatitude().getLatitude(),TOLERANCE);
-		assertEquals( -6.2404521,myHouse.getLongitudeAndLatitude().getLongitude(),TOLERANCE);		
+		assertEquals( 53.36511119999999,myHouse.getLatitudeAndLongitude().getLatitude(),TOLERANCE);
+		assertEquals( -6.2404521,myHouse.getLatitudeAndLongitude().getLongitude(),TOLERANCE);		
 	}
 
 }

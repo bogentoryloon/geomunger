@@ -28,6 +28,13 @@ public class TestFileReader {
 		List<GPLocation> gps = fileReader.readPCRSFile("UGP_GPlist_by_LHO.json");
 		assertEquals(2749,gps.size() );
 	}
+	@Test
+	public void testReadPCRSFileWithLoc() throws JsonParseException, IOException {
+		List<GPLocation> gps = fileReader.readPCRSFile("UGP_GPlist_by_LHO_with_loc.json");
+		assertEquals(2749,gps.size() );
+	}
+
+	
 	// see if I can use this lambda thing
 	@Test
 	public void testLambda() throws JsonParseException, IOException {
@@ -36,5 +43,13 @@ public class TestFileReader {
 		List<GPLocation> dubGps = gps.stream().filter(p -> p.getAddress().indexOf("DUBLIN")!=-1).collect(Collectors.toList());
 		log.info("Dublin GPs = "+dubGps.size());
 		assertEquals(304,dubGps.size());
+	}
+	@Test 
+	public void testWriter() throws IOException{
+		List<GPLocation> gps = fileReader.readPCRSFile("UGP_GPlist_by_LHO.json");
+		assertEquals(2749,gps.size() );
+		fileReader.writePCRSFile("spug", gps);
+		gps = fileReader.readPCRSFile("spug");
+		assertEquals(2749,gps.size() );
 	}
 }

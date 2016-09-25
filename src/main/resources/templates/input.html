@@ -9,11 +9,8 @@
     	<h1>Setup Parameters</h1>
     <form action="#" th:action="@{/input}" th:object="${input}" method="post">
     	<p>File: <input type="text" th:field="*{fileName}" /></p>
-    	
     	<td th:if="${#fields.hasErrors('fileName')}" th:errors="*{fileName}">Name Error</td>
-        <p>Iterations: <input type="text" th:field="*{iterations}" /></p>
-        <td th:if="${#fields.hasErrors('iterations')}" th:errors="*{iterations}">Error</td>
-        <p><input type="submit" value="Submit" /> </p>
+        <p><input type="submit" value="Load" /> </p>
     </form>
 </body>
 </html>
