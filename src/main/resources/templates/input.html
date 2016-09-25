@@ -6,11 +6,12 @@
 </head>
 <body>
 
-    	<h1>Setup Parameters</h1>
+    	<h1>Load data</h1>
     <form action="#" th:action="@{/input}" th:object="${input}" method="post">
-    	<p>File: <input type="text" th:field="*{fileName}" /></p>
-    	<td th:if="${#fields.hasErrors('fileName')}" th:errors="*{fileName}">Name Error</td>
-        <p><input type="submit" value="Load" /> </p>
+    	<p>Input File: <input type="text" th:field="*{inputFile}" /></p>
+    	(NB there is pre-geocoded file available, UGP_GPlist_DUBLIN_geocoded.json, which can be entered above)
+    	<td th:if="${#fields.hasErrors('inputFile')}" th:errors="*{inputFile}">Name Error</td>
+        <p><input type="submit" value="Load Input" /> </p>
     </form>
 </body>
 </html>

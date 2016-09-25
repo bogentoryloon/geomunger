@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,17 +20,21 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ie.jtc.model.Filter;
 import ie.jtc.model.GPLocation;
 import ie.jtc.model.Input;
+import ie.jtc.model.Location;
 import ie.jtc.services.FileAccessor;
+import ie.jtc.services.GeoService;
 
 
 @Controller
-@SessionAttributes(value={"docs","filter"})
+@SessionAttributes(value={"docs","filter","input"})
 
 public class GuiController {
 
 	@Autowired
-	FileAccessor fileReader;		
-	
+	FileAccessor fileService;	
+	@Autowired
+	GeoService geoService;
+	Logger log = Logger.getLogger(GuiController.class );
     @RequestMapping(value="/filter",method=RequestMethod.GET)
     public String previewGet(  Model model) {  
     	if( ! model.containsAttribute("filter") ){
@@ -38,7 +43,7 @@ public class GuiController {
         return "filter";
     }
 
-    @RequestMapping(value="/filter",method=RequestMethod.POST)
+    @RequestMapping(value="/filter",params="filter",method=RequestMethod.POST)
     public String previewPost(@Valid Filter filter,
     		@SessionAttribute List<GPLocation> docs,
     		Model model) {   
@@ -54,11 +59,50 @@ public class GuiController {
     	model.addAttribute("docs",docs);
         return "filter";
     }
+    @RequestMapping(value="/save",method=RequestMethod.POST)
+    public String save(@SessionAttribute List<GPLocation> docs,
+    		@Valid Input input,
+    		Model model){
+    	try {
+			fileService.writePCRSFile(input.getOutputFile(), docs);
+			model.addAttribute("status","Ok");
+		} catch (IOException e) {
+			model.addAttribute("status",e.getMessage());			
+		}
+    	 return "filter";
+    }
+    
+    @RequestMapping(value="/geocode",method=RequestMethod.POST)
+    public String geocode(@SessionAttribute List<GPLocation> docs,
+    		@Valid Input input,
+    		Model model){
+    	int geocoded=0;
+    	long start=System.currentTimeMillis();
+		for(GPLocation doc:docs){
+			try {
+				Location.Status status = geoService.getGeoCode(doc);
+				log.debug(status+" for "+doc.toString());
+				switch( status ){
+				case OK:
+					++geocoded;
+				default:
+					break;				
+				}
+			} catch (Exception e) {
+				log.warn(doc.toString()+e.getMessage());
+			}
+		}
+		long duration = System.currentTimeMillis()-start;
+		model.addAttribute("status",String.format("Geocode %d out %d in %d ms.",geocoded,docs.size(),duration));
+    	 return "filter";
+    }
 
+    
+    
     @RequestMapping(value="/input",method=RequestMethod.GET)
     public String start(  Model model) {        
     	Input input = new Input();
-    	input.setFileName("UGP_GPlist_by_LHO.json");
+    	input.setInputFile("UGP_GPlist_by_LHO.json");
     	model.addAttribute("input",input);
         return "input";
     }
@@ -70,7 +114,7 @@ public class GuiController {
         List<GPLocation> docs=null;
         long startTime = System.currentTimeMillis();
 		try {
-			docs = fileReader.readPCRSFile (input.getFileName());
+			docs = fileService.readPCRSFile (input.getInputFile());
 		} catch (IOException e) {
         	result.rejectValue("fileName","error","failed to read: "+e.getMessage());
         	return "input";        	
@@ -84,7 +128,7 @@ public class GuiController {
 			
 		}
         if( docs == null){
-        	result.rejectValue("fileName","error","empty file: "+input.getFileName());
+        	result.rejectValue("fileName","error","empty file: "+input.getInputFile());
         	return "input";
         }
         long milliSeconds = System.currentTimeMillis() - startTime;        

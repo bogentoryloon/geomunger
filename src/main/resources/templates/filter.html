@@ -8,15 +8,32 @@
     <form action="#" th:action="@{/filter}" th:object="${filter}" method="post">
     	<p>Address <input type="text" th:field="*{address}" /></p>
         <p>Name <input type="text" th:field="*{name}" /></p>
-        <p><input type="submit" value="Filter" /> </p>
+        <p><input type="submit" value="Filter" name="filter"/> </p>                
     </form>
-<span th:text="${docs.size()}"> </span> records. 
+    <form action="#" th:action="@{/geocode}" th:object="${input}" method="post">
+    <p><input type="submit" value="Geocode" name="geocode" /> </p>
+    <span th:text="${docs.size()}"> </span> records?    
+    </form>
+    
+    <form action="#" th:action="@{/save}" th:object="${input}" method="post">
+    <p>Output File: <input type="text" th:field="*{outputFile}" /></p>
+    <p><input type="submit" value="Save" name="save" /> </p>
+    </form>
+    <span th:if="${status != null}" th:text="${status}">Static summary</span>
+    <br/>
+ 
        <table>
+       <thead>
+       <tr>
+       <th>Id</th><TH>Name</TH><th>Address</th><th>Latitude</th><th>Longitude</th>
+       </tr>
+       </thead>
        <tr th:each="doc  : ${docs}">
-        <td th:text="${doc.id}">001</td>
-        <td th:text="${doc.name}">Name</td>
-        <td th:text="${doc.address}">City</td>
-
+        <td th:text="${doc.id}"></td>
+        <td th:text="${doc.name}"></td>
+        <td th:text="${doc.address}"></td>
+        <td th:text="${doc.getLatitudeAndLongitude().getLatitude()}"></td>
+		<td th:text="${doc.getLatitudeAndLongitude().getLongitude()}"></td>
       </tr>
     </table>
        

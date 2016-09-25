@@ -5,21 +5,20 @@ import javax.validation.constraints.NotNull;
 
 
 public class Input {
-	@NotNull 
-	private String fileName;
-    @NotNull
-    @Min(1)
-	private int iterations=1;
-	public String getFileName() {
-		return fileName;
+
+	private String outputFile;
+	private String inputFile;
+	public String getInputFile() {
+		return inputFile;
 	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setInputFile(String fileName) {
+		this.inputFile = fileName;
 	}
-	public int getIterations() {
-		return iterations;
+	public String getOutputFile() {
+		return outputFile;
 	}
-	public void setIterations(int iterations) {
-		this.iterations = iterations;
+	public void setOutputFile(String outputFile) {
+		this.outputFile = outputFile;
 	}
+
 }
