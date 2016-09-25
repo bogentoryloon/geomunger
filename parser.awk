@@ -11,6 +11,8 @@ BEGIN 	{state=0}
 		state=3;
 	}else if(state==3){
 		state=0;
+		# bodge the data with Ireland
+		adr=adr ",IRELAND"
 		printf("{\"id\":\"%s\",\"name\":\"%s\",\"address\":\"%s\",\"latitudeAndLongitude\"\
 		:{\"latitude\":\"0\",\"longitude\":\"0\"}}\n"\
 		,gp,doc,adr);

@@ -25,7 +25,7 @@
        <table>
        <thead>
        <tr>
-       <th>Id</th><TH>Name</TH><th>Address</th><th>Latitude</th><th>Longitude</th>
+       <th>Id</th><TH>Name</TH><th>Address</th><th>Latitude</th><th>Longitude</th><th>Status</th>
        </tr>
        </thead>
        <tr th:each="doc  : ${docs}">
@@ -34,6 +34,7 @@
         <td th:text="${doc.address}"></td>
         <td th:text="${doc.getLatitudeAndLongitude().getLatitude()}"></td>
 		<td th:text="${doc.getLatitudeAndLongitude().getLongitude()}"></td>
+		<td th:text="${doc.getStatus()}"></td>
       </tr>
     </table>
        

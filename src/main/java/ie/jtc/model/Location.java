@@ -39,7 +39,9 @@ public  class Location {
 		ACCESS_NOT_CONFIGURED("ACCESS_NOT_CONFIGURED"),
 		INVALID_ARGUMENT("INVALID_ARGUMENT"),
 		RESOURCE_EXHAUSTED("RESOURCE_EXHAUSTED"),
-		PERMISSION_DENIED("PERMISSION_DENIED");
+		PERMISSION_DENIED("PERMISSION_DENIED"),
+		// my addition
+		AMBIGUOUS("AMBIGUOUS");
 		private final String value;
 		Status(String value){
 			this.value=value;
@@ -158,16 +160,23 @@ public  class Location {
 	public void assimilateGeoResults(GeocodingResult[] results) {
 		georesults=results;
 		if( results!=null){
+			if( results.length>1){
+				status=Status.AMBIGUOUS;
+			}else{
+				status = Status.OK ;	
+			}
 			this.latitudeAndLongitude.setLongitude(results[0].geometry.location.lng);
 			this.latitudeAndLongitude.setLatitude(results[0].geometry.location.lat);
 			this.placeId=results[0].placeId;
-			this.partialMatch=results[0].partialMatch;
-			
+			this.partialMatch=results[0].partialMatch;				
 			// for curiosity...
 			for(int i=0;i<results.length;++i){
 				log.debug( dump(results[i]) );
 			}
-		}		
+		}else{
+			status=Status.NOT_FOUND;
+		}
+		
 	}
 	private String dump(GeocodingResult geo) {
 		StringBuilder sb=new StringBuilder();

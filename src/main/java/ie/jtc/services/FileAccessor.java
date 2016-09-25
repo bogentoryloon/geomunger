@@ -28,5 +28,6 @@ public class FileAccessor{
 		}
 		FileOutputStream fop = new FileOutputStream(file);	
 		jsonService.writeJsonData(gps,fop);
+		fop.close();		
 	}
 }
