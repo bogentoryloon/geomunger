@@ -2,7 +2,7 @@ package ie.jtc.model;
 
 import org.apache.log4j.Logger;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.maps.errors.*;
 import com.google.maps.model.GeocodingResult;
 
@@ -76,6 +76,7 @@ public  class Location {
     }
 
 	 */
+	@JsonIgnore
 	public Status setStatus(ApiException e) {
 		if( e instanceof AccessNotConfiguredException ){
 			status=Status.ACCESS_NOT_CONFIGURED;
@@ -134,9 +135,7 @@ public  class Location {
 	public Status getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+
 	public Location(){
 		
 	}

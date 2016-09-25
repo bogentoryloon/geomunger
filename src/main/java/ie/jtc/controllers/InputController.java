@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ie.jtc.model.GPLocation;
 import ie.jtc.model.Input;
-import ie.jtc.services.FileReader;
+import ie.jtc.services.FileAccessor;
+
 
 @Controller
 @SessionAttributes("docs")
 public class InputController {
 
 	@Autowired
-	FileReader fileReader;	
+	FileAccessor fileReader;	
 
     @RequestMapping(value="/preview",method=RequestMethod.GET)
     public String preview(  Model model) {        
