@@ -13,7 +13,7 @@
     	<td th:if="${#fields.hasErrors('fileName')}" th:errors="*{fileName}">Name Error</td>
         <p>Iterations: <input type="text" th:field="*{iterations}" /></p>
         <td th:if="${#fields.hasErrors('iterations')}" th:errors="*{iterations}">Error</td>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <p><input type="submit" value="Submit" /> </p>
     </form>
 </body>
 </html>
