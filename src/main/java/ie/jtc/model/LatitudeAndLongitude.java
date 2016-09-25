@@ -6,18 +6,21 @@ package ie.jtc.model;
  * @author John
  *
  */
-public class LongitudeAndLatitude {
+public class LatitudeAndLongitude {
 	private double longitude;
 	private double latitude;
-	public LongitudeAndLatitude(double longitude,double latitude){
+	public LatitudeAndLongitude(double longitude,double latitude){
 		setLongitude(longitude);
 		setLatitude(latitude);		
 	}
-	public LongitudeAndLatitude(String coords) {
+	public LatitudeAndLongitude(String coords) {
 		String pair[]=coords.split(",");
 		setLongitudeString(pair[0]);
 		setLatitudeString(pair[1]);
 
+	}
+	public LatitudeAndLongitude() {
+		// TODO Auto-generated constructor stub
 	}
 	public void setLatitudeString(String latitude2) {
 		this.setLatitude(Double.parseDouble(latitude2));

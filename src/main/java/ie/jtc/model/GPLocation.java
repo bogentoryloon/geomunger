@@ -1,6 +1,8 @@
 package ie.jtc.model;
 
 public class GPLocation extends Location {
+
+
 	private String id;
 	private String name;
 
