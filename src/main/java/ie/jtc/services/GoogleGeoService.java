@@ -16,7 +16,7 @@ import ie.jtc.model.LatitudeAndLongitude;
 import ie.jtc.model.Location;
 
 @Service
-public class GoogleGeoService implements GeoService, DistanceService {
+public class GoogleGeoService implements GeoService {
 	private String jtcApiKey = "AIzaSyBnnOcSKaX3E4vGHUD7UQTC5_TRmotpG7w";
 	private GeoApiContext context;
 	private Logger log = Logger.getLogger(GoogleGeoService.class);
@@ -51,11 +51,5 @@ public class GoogleGeoService implements GeoService, DistanceService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ie.jtc.services.DistanceService#drivingDistanceMeters(ie.jtc.model.LatitudeAndLongitude, ie.jtc.model.LatitudeAndLongitude)
-	 */
-	@Override
-	public double drivingDistanceMeters(LatitudeAndLongitude locA, LatitudeAndLongitude locB) {
-		return 0;	    
-	}
+
 }

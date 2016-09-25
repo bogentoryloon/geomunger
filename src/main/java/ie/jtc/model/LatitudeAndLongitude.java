@@ -9,7 +9,7 @@ package ie.jtc.model;
 public class LatitudeAndLongitude {
 	private double longitude;
 	private double latitude;
-	public LatitudeAndLongitude(double longitude,double latitude){
+	public LatitudeAndLongitude(double latitude,double longitude){
 		setLongitude(longitude);
 		setLatitude(latitude);		
 	}
