@@ -4,8 +4,28 @@
 <meta charset="ISO-8859-1">
 <title>Why I wrote this</title>
 </head>
-Seemed like a good idea at the time.
 <body>
+<h3>The Idea</h3>
+The Datalex programming task is pretty open-ended i.e. no spec. Danger! Danger!<br>So try and think of something realistic and quantifiable. Data extraction and mangling is my forte, so what to do?<br>I had the brainwave to use GCD approximation assuming Ireland was on the equator, then refining to see how much fudge factor was 
 
+neccessary.
+
+<br>The germ of plan - if it goes no further I might have something usable in the day job - there was something along the lines of h finding GPs doing long distance house calls above the norm. <br>Or was it to recommend GPs ranked 
+
+by google journey time?<br>Whatever - instead of doing a call to google journey time for every GP in the land, if their stored geocode were available, and 
+
+thus their long and lat we could do targetted sql extraction based on GCDin ever increasing sizes till we hit a threshold of x 
+
+GPs y miles drive away (the alternative, we do this for c.2M medical card holder and c.2k GPs represents 4Bn google hits/data 
+
+rows. Without my data scientist/accountant hat on I'm going to assume this is untenable).
+<br>So the objective now is to capture the N closest, ordered, GPs for each known individual.
+<h3>The Plan</h3>
+locate semi realistic set of addresses for Gps (or surrogate)
+<br>locate semi realistic set of addresses for patient (or surrogate)
+<br>geocode both
+<br>develop GCD approximation to locate nearest N GPs per patient
+<br>test against driving distance API<br>refine fudge factor to minimise google calls
+<br>present the results in some fashion
 </body>
 </html>

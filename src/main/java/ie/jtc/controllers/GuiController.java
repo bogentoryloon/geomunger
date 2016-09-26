@@ -2,6 +2,7 @@ package ie.jtc.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import ie.jtc.model.Input;
 import ie.jtc.model.Location;
 import ie.jtc.services.FileAccessor;
 import ie.jtc.services.GeoService;
-
+import ie.jtc.services.NearbyService;
 
 @Controller
 @SessionAttributes(value={"docs","filter","input"})
@@ -34,6 +35,9 @@ public class GuiController {
 	FileAccessor fileService;	
 	@Autowired
 	GeoService geoService;
+	@Autowired
+	NearbyService nearbyService;
+	
 	Logger log = Logger.getLogger(GuiController.class );
     @RequestMapping(value="/filter",method=RequestMethod.GET)
     public String previewGet(  Model model) {  
@@ -71,6 +75,20 @@ public class GuiController {
 		}
     	 return "filter";
     }
+    @RequestMapping(value="/connect",method=RequestMethod.GET)
+    public String getConnect(@SessionAttribute List<GPLocation> docs,    		
+    		Model model){    	
+    	 return "connect";
+    }    
+    @RequestMapping(value="/connect",method=RequestMethod.POST)
+    public String doConnect(@SessionAttribute List<GPLocation> docs,
+    		@Valid Input input,
+    		Model model){
+    	Map<Double,GPLocation> results= nearbyService.findWithinDrivingDistance(input.getDoctorId(), docs, input.getDistanceKm(), input.getDegreesToSearch());
+    	model.addAttribute("results",results);
+    	// todo:  want to summarise these results as well
+    	 return "connect";
+    }      
     
     @RequestMapping(value="/geocode",method=RequestMethod.POST)
     public String geocode(@SessionAttribute List<GPLocation> docs,
@@ -93,8 +111,8 @@ public class GuiController {
 			}
 		}
 		long duration = System.currentTimeMillis()-start;
-		model.addAttribute("status",String.format("Geocode %d out %d in %d ms.",geocoded,docs.size(),duration));
-    	 return "filter";
+		model.addAttribute("status",String.format("Geocoded %d out of %d in %d ms.",geocoded,docs.size(),duration));
+    	return "filter";
     }
 
     
@@ -134,7 +152,8 @@ public class GuiController {
         long milliSeconds = System.currentTimeMillis() - startTime;        
     	model.addAttribute("docs", docs);
     	model.addAttribute("milliSeconds",milliSeconds);
-    	return "loadresult";        
+    	model.addAttribute("filter",new Filter());
+    	return "filter";        
     }
 
 }

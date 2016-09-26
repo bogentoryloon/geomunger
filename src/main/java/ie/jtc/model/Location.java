@@ -112,7 +112,7 @@ public  class Location {
 		}
 		return status;
 	}
-	@JsonIgnore
+	@JsonProperty
 	private Status status;
 	@JsonIgnore
 	private Boolean partialMatch;
@@ -159,7 +159,7 @@ public  class Location {
 	 */
 	public void assimilateGeoResults(GeocodingResult[] results) {
 		georesults=results;
-		if( results!=null){
+		if( results!=null && results.length>0){
 			if( results.length>1){
 				status=Status.AMBIGUOUS;
 			}else{

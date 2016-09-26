@@ -45,7 +45,7 @@ public class GoogleGeoService implements GeoService {
 				+ (results == null ? " null " : Integer.toString(results.length)));
 		if (results != null) {
 			loc.assimilateGeoResults(results);
-			return Location.Status.OK;
+			return loc.getStatus();
 		} else {
 			return Location.Status.ZERO_RESULTS;
 		}

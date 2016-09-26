@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Find Nearby</title>
+   
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<a href="/">Home</a>
+This form tests the proposition that by treating longitude and latitude as defining a square, 
+we can reduce the search space for our expensive driving miles query.
+This ignores:
+<li>We are resticting by a square, where it should be a circle (we really should Great Circle Distance, but the original plan was to do this in sql)</li>
+<li>The earth is not flat. The hope is that Ireland's latitude this will still usefully locate adjacent points </li>
+
+
+    <form action="#" th:action="@{/connect}" th:object="${input}" method="post">
+    <p>ID of GP in list below who will form the nexus<input type="text" th:field="*{doctorId}" /></p>
+    <p>Distance (Kms) by car<input type="text" th:field="*{distanceKm}" /></p>
+    <p>Fraction of degree to use for search<input type="text" th:field="*{distanceKm}" /></p>
+    <p><input type="submit" value="Find nearby" name="connect" /> </p>
+    </form>
+    <span th:if="${status != null}" th:text="${status}">Static summary</span>
+    
+ 
+       <table>
+       <thead>
+       <tr>
+       <th>Id</th><TH>Name</TH><th>Address</th><th>Latitude</th><th>Longitude</th><th>Status</th>
+       </tr>
+       </thead>
+       <tr th:each="doc  : ${docs}">
+        <td th:text="${doc.id}"></td>
+        <td th:text="${doc.name}"></td>
+        <td th:text="${doc.address}"></td>
+        <td th:text="${doc.getLatitudeAndLongitude().getLatitude()}"></td>
+		<td th:text="${doc.getLatitudeAndLongitude().getLongitude()}"></td>
+		<td th:text="${doc.getStatus()}"></td>
+      </tr>
+    </table>
+       
+</body>
+</html>

@@ -1,18 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
-    <title>GP List</title> 
+    <title>GP List</title>
+   
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<a href="/">Home</a>
+<p> <a href="/connect">Connect...</a></p>
     <form action="#" th:action="@{/filter}" th:object="${filter}" method="post">
     	<p>Address <input type="text" th:field="*{address}" /></p>
         <p>Name <input type="text" th:field="*{name}" /></p>
-        <p><input type="submit" value="Filter" name="filter"/> </p>                
+        Filter is destructive (prune?) - you will need to reload the data file to recover records  
+        <p><input type="submit" value="Filter" name="filter"/> </p>
+                        
     </form>
+      <span th:text="${docs.size()}"> </span> records. 
     <form action="#" th:action="@{/geocode}" th:object="${input}" method="post">
     <p><input type="submit" value="Geocode" name="geocode" /> </p>
-    <span th:text="${docs.size()}"> </span> records?    
+     
     </form>
     
     <form action="#" th:action="@{/save}" th:object="${input}" method="post">
